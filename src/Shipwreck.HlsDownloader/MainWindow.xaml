@@ -4,24 +4,25 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:toolkit="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls.WebView"
     xmlns:local="clr-namespace:Shipwreck.HlsDownloader"
     mc:Ignorable="d"
     Title="MainWindow"
     Height="450"
-    Width="800">
+    Width="800"
+    Loaded="Window_Loaded">
     <Window.DataContext>
         <local:MainWindowViewModel />
     </Window.DataContext>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition
-                Width="4" />
-            <ColumnDefinition
-                Width="300" />
-        </Grid.ColumnDefinitions>
-        <DockPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition
+                Height="8" />
+            <RowDefinition
+                Height="200" />
+        </Grid.RowDefinitions>
+        <DockPanel
+            Name="webViewParent">
             <DockPanel
                 DockPanel.Dock="Top">
                 <Button
@@ -30,19 +31,37 @@
                 <TextBox
                     Text="{Binding Url}" />
             </DockPanel>
-            <toolkit:WebView
-                Name="webView" />
         </DockPanel>
         <GridSplitter
-            Grid.Column="1"
+            Grid.Row="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch" />
         <TabControl
-            Grid.Column="2">
+            Grid.Row="2">
             <TabItem
                 Header="リクエスト">
-                <DataGrid>
-
+                <DataGrid
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding Requests}"
+                    FrozenColumnCount="2">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Binding="{Binding Method}" />
+                        <DataGridTextColumn
+                            Header="URL"
+                            Binding="{Binding Url}"
+                            Width="400" />
+                        <DataGridTextColumn
+                            Header="結果"
+                            Binding="{Binding StatusCode}" />
+                        <DataGridTextColumn
+                            Header="サイズ"
+                            Binding="{Binding ContentLength, StringFormat='#,0'}" />
+                        <DataGridTextColumn
+                            Header="形式"
+                            Binding="{Binding ContentType}" />
+                    </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
             <TabItem
