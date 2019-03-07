@@ -55,7 +55,7 @@ namespace Shipwreck.HlsDownloader
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.Requests.Clear();
+            ViewModel.RequestList.Clear();
 
             var sd = Settings.Default;
             sd.CurrentUrl = ViewModel.Url;

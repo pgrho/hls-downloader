@@ -40,29 +40,41 @@
             Grid.Row="2">
             <TabItem
                 Header="リクエスト">
-                <DataGrid
-                    AutoGenerateColumns="False"
-                    IsReadOnly="True"
-                    ItemsSource="{Binding Requests}"
-                    FrozenColumnCount="2">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Binding="{Binding Method}" />
-                        <DataGridTextColumn
-                            Header="URL"
-                            Binding="{Binding Url}"
-                            Width="400" />
-                        <DataGridTextColumn
-                            Header="結果"
-                            Binding="{Binding StatusCode}" />
-                        <DataGridTextColumn
-                            Header="サイズ"
-                            Binding="{Binding ContentLength, StringFormat='#,0'}" />
-                        <DataGridTextColumn
-                            Header="形式"
-                            Binding="{Binding ContentType}" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                <DockPanel>
+                    <WrapPanel
+                        DockPanel.Dock="Top"
+                        Orientation="Horizontal">
+                        <Label>形式</Label>
+                        <ComboBox
+                            IsEditable="True"
+                            MinWidth="120"
+                            Text="{Binding ContentTypeFilter, UpdateSourceTrigger=PropertyChanged}" />
+                    </WrapPanel>
+                    <DataGrid
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding Requests}"
+                        FrozenColumnCount="2">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Binding="{Binding Method}" />
+                            <DataGridTextColumn
+                                Header="URL"
+                                Binding="{Binding Url}"
+                                Width="400" />
+                            <DataGridTextColumn
+                                Header="結果"
+                                Binding="{Binding StatusCode}" />
+                            <DataGridTextColumn
+                                Header="サイズ"
+                                Binding="{Binding ContentLength, StringFormat='#,0'}" />
+                            <DataGridTextColumn
+                                Header="形式"
+                                Binding="{Binding ContentType}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+
             </TabItem>
             <TabItem
                 Header="ダウンロード">

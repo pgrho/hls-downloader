@@ -4,6 +4,8 @@ using Gecko.Observers;
 using Shipwreck.HlsDownloader.Properties;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace Shipwreck.HlsDownloader
 {
@@ -23,7 +25,7 @@ namespace Shipwreck.HlsDownloader
                 var rvm = new RequestViewModel(channel);
                 base.Response(channel);
 
-                App.Current?.Dispatcher?.BeginInvoke((Action)(() => _MainWindow.Requests.Add(rvm)));
+                App.Current?.Dispatcher?.BeginInvoke((Action)(() => _MainWindow.RequestList.Add(rvm)));
             }
         }
 
@@ -44,12 +46,70 @@ namespace Shipwreck.HlsDownloader
 
         #region Requests
 
-        private ObservableCollection<RequestViewModel> _Requests;
+        private ObservableCollection<RequestViewModel> _RequestList;
 
-        public ObservableCollection<RequestViewModel> Requests
-            => _Requests ?? (_Requests = new ObservableCollection<RequestViewModel>());
+        internal ObservableCollection<RequestViewModel> RequestList
+        {
+            get
+            {
+                return _RequestList ?? (_RequestList = new ObservableCollection<RequestViewModel>());
+            }
+        }
 
         #endregion Requests
+
+        #region Requests
+
+        private ICollectionView _Requests;
+
+        public ICollectionView Requests
+        {
+            get
+            {
+                if (_Requests == null)
+                {
+                    _Requests = CollectionViewSource.GetDefaultView(RequestList);
+                    OnContentTypeFilterChanged();
+                }
+                return _Requests;
+            }
+        }
+
+        #endregion Requests
+
+        private string _ContentTypeFilter = "application/x-mpegurl";
+
+        public string ContentTypeFilter
+        {
+            get => _ContentTypeFilter;
+            set
+            {
+                if (SetProperty(ref _ContentTypeFilter, value))
+                {
+                    OnContentTypeFilterChanged();
+                }
+            }
+        }
+
+
+        private void OnContentTypeFilterChanged()
+        {
+            if (_Requests != null)
+            { 
+                var t = _ContentTypeFilter;
+                if (string.IsNullOrEmpty(t))
+                {
+                    _Requests.Filter = _ => true;
+                }
+                else
+                {
+                    _Requests.Filter = o => o is RequestViewModel m
+                        && m.ContentType?.StartsWith(t, StringComparison.InvariantCultureIgnoreCase) == true;
+                }
+                _Requests.Refresh();
+            }
+        }
+
 
         internal void OnFrameLoadStart(string url)
         {
