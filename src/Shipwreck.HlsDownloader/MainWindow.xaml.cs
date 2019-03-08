@@ -4,6 +4,7 @@ using Shipwreck.HlsDownloader.Properties;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms.Integration;
+using System.Windows.Input;
 
 namespace Shipwreck.HlsDownloader
 {
@@ -57,7 +58,9 @@ namespace Shipwreck.HlsDownloader
             ViewModel.OnFrameLoadEnd(_Browser.Url.ToString());
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private Command _NavigateToCommand;
+
+        public ICommand NavigateToCommand => _NavigateToCommand ?? (_NavigateToCommand = new Command(() =>
         {
             ViewModel.RequestList.Clear();
 
@@ -65,6 +68,6 @@ namespace Shipwreck.HlsDownloader
             sd.CurrentUrl = ViewModel.Url;
             sd.Save();
             _Browser.Navigate(ViewModel.Url);
-        }
+        }));
     }
 }

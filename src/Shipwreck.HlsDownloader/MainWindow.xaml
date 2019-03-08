@@ -31,11 +31,18 @@
                     Name="webViewParent">
                     <DockPanel
                         DockPanel.Dock="Top">
+                        <DockPanel.InputBindings>
+                            <KeyBinding
+                                Key="Return"
+                                Command="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow}, Path=NavigateToCommand}" />
+                        </DockPanel.InputBindings>
                         <Button
                             DockPanel.Dock="Right"
-                            Click="Button_Click"
-                            Content="{x:Static prop:Resources.GoToUrl}" />
+                            Padding="8 4"
+                            Content="{x:Static prop:Resources.GoToUrl}"
+                            Command="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow}, Path=NavigateToCommand}" />
                         <TextBox
+                            VerticalContentAlignment="Center"
                             Text="{Binding Url}" />
                     </DockPanel>
                 </DockPanel>
