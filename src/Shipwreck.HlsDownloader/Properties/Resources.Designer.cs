@@ -79,6 +79,15 @@ namespace Shipwreck.HlsDownloader.Properties {
         }
         
         /// <summary>
+        ///   FFmpeg Conversion (_C) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ConvertByFfmpeg {
+            get {
+                return ResourceManager.GetString("ConvertByFfmpeg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Destination .m3u8 (_D) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DestinationM3u8 {

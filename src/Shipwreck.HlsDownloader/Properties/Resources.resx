@@ -123,6 +123,9 @@
   <data name="ContentType" xml:space="preserve">
     <value>Format</value>
   </data>
+  <data name="ConvertByFfmpeg" xml:space="preserve">
+    <value>FFmpeg Conversion (_C)</value>
+  </data>
   <data name="DestinationM3u8" xml:space="preserve">
     <value>Destination .m3u8 (_D)</value>
   </data>

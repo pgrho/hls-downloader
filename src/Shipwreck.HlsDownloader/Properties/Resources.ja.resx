@@ -150,4 +150,7 @@
   <data name="WebView" xml:space="preserve">
     <value>Webビュー (_V)</value>
   </data>
+  <data name="ConvertByFfmpeg" xml:space="preserve">
+    <value>FFmpegで変換 (_C)</value>
+  </data>
 </root>

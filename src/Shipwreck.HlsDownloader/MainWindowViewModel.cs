@@ -256,24 +256,24 @@ namespace Shipwreck.HlsDownloader
 
         #region M3u8Url
 
-        private string _M3u8Url;
+        private string _M3u8Url = string.Empty;
 
         public string M3u8Url
         {
             get => _M3u8Url;
-            set => SetProperty(ref _M3u8Url, value);
+            set => SetProperty(ref _M3u8Url, value?.Trim() ?? string.Empty);
         }
 
         #endregion M3u8Url
 
         #region DestinationM3u8
 
-        private string _DestinationM3u8 = Settings.Default.DestinationM3u8;
+        private string _DestinationM3u8 = Settings.Default.DestinationM3u8 ?? string.Empty;
 
         public string DestinationM3u8
         {
             get => _DestinationM3u8;
-            set => SetProperty(ref _DestinationM3u8, value);
+            set => SetProperty(ref _DestinationM3u8, value?.Trim() ?? string.Empty);
         }
 
         #endregion DestinationM3u8
@@ -293,7 +293,7 @@ namespace Shipwreck.HlsDownloader
 
         public ICommand BrowseDestinationCommand
             => _BrowseDestinationCommand
-            ?? (_BrowseDestinationCommand = new Command(async () =>
+            ?? (_BrowseDestinationCommand = new Command(() =>
             {
                 var fd = new SaveFileDialog();
                 fd.Filter = "HLS Playlist|*.m3u8";
@@ -306,7 +306,7 @@ namespace Shipwreck.HlsDownloader
                 }
             }));
 
-        #endregion IsDownloaderShown
+        #endregion BrowseDestinationCommand
 
         #region DownloadCommand
 
