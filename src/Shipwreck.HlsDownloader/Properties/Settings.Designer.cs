@@ -34,5 +34,17 @@ namespace Shipwreck.HlsDownloader.Properties {
                 this["CurrentUrl"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DestinationM3u8 {
+            get {
+                return ((string)(this["DestinationM3u8"]));
+            }
+            set {
+                this["DestinationM3u8"] = value;
+            }
+        }
     }
 }

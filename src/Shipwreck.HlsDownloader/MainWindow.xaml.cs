@@ -1,11 +1,7 @@
 ﻿using Gecko;
 using Gecko.Events;
-using Gecko.Net;
-using Gecko.Observers;
 using Shipwreck.HlsDownloader.Properties;
-using System;
-using System.Diagnostics;
-using System.Threading;
+using System.Linq;
 using System.Windows;
 using System.Windows.Forms.Integration;
 
@@ -17,6 +13,7 @@ namespace Shipwreck.HlsDownloader
     public partial class MainWindow : Window
     {
         private GeckoWebBrowser _Browser;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -39,6 +36,15 @@ namespace Shipwreck.HlsDownloader
             {
                 _Browser.Navigate(ViewModel.Url);
             }
+
+            ViewModel.DownloaderLog.CollectionChanged += (_, __) =>
+            {
+                var l = ViewModel.DownloaderLog.LastOrDefault();
+                if (l != null)
+                {
+                    downloaderLogListBox.ScrollIntoView(l);
+                }
+            };
         }
 
         private void _Browser_Navigating(object sender, GeckoNavigatingEventArgs e)
@@ -50,8 +56,6 @@ namespace Shipwreck.HlsDownloader
         {
             ViewModel.OnFrameLoadEnd(_Browser.Url.ToString());
         }
-
- 
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

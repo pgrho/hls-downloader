@@ -9,7 +9,6 @@ namespace Shipwreck.HlsDownloader
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected bool SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
-            where T : IEquatable<T>
         {
             if (field?.Equals(value) ?? value?.Equals(field) ?? true)
             {

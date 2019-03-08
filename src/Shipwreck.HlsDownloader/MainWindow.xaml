@@ -13,34 +13,37 @@
     <Window.DataContext>
         <local:MainWindowViewModel />
     </Window.DataContext>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition
-                Height="8" />
-            <RowDefinition
-                Height="200" />
-        </Grid.RowDefinitions>
-        <DockPanel
-            Name="webViewParent">
-            <DockPanel
-                DockPanel.Dock="Top">
-                <Button
-                    DockPanel.Dock="Right"
-                    Click="Button_Click">Go</Button>
-                <TextBox
-                    Text="{Binding Url}" />
-            </DockPanel>
-        </DockPanel>
-        <GridSplitter
-            Grid.Row="1"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch" />
-        <TabControl
-            Grid.Row="2">
-            <TabItem
-                Header="リクエスト">
-                <DockPanel>
+    <TabControl>
+        <TabItem
+            Header="リクエスト">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition
+                        Height="8" />
+                    <RowDefinition
+                        Height="200" />
+                    <RowDefinition
+                        Height="Auto" />
+                </Grid.RowDefinitions>
+                <DockPanel
+                    Name="webViewParent">
+                    <DockPanel
+                        DockPanel.Dock="Top">
+                        <Button
+                            DockPanel.Dock="Right"
+                            Click="Button_Click">Go</Button>
+                        <TextBox
+                            Text="{Binding Url}" />
+                    </DockPanel>
+                </DockPanel>
+                <GridSplitter
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" />
+
+                <DockPanel
+                    Grid.Row="2">
                     <WrapPanel
                         DockPanel.Dock="Top"
                         Orientation="Horizontal">
@@ -54,7 +57,11 @@
                         AutoGenerateColumns="False"
                         IsReadOnly="True"
                         ItemsSource="{Binding Requests}"
-                        FrozenColumnCount="2">
+                        SelectedItem="{Binding SelectedRequest}"
+                        FrozenColumnCount="2"
+                        HeadersVisibility="Column"
+                        SelectionMode="Single"
+                        SelectionUnit="FullRow">
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Binding="{Binding Method}" />
@@ -74,12 +81,97 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
+                <Button
+                    Grid.Row="3"
+                    HorizontalAlignment="Right"
+                    MinWidth="60"
+                    Margin="8 4"
+                    Padding="8 4"
+                    Command="{Binding SetRequestToDownloaderCommand}">
+                    <Button.Style>
+                        <Style
+                            TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding SelectedRequest}"
+                                    Value="{x:Null}">
+                                    <Setter
+                                        Property="IsEnabled"
+                                        Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    選択
+                </Button>
+            </Grid>
+        </TabItem>
+        <TabItem
+            Header="ダウンロード"
+            IsSelected="{Binding IsDownloaderShown}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="Auto" />
+                    <RowDefinition
+                        Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+                            Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Margin="8 4">m3u8 URL</Label>
+                    <TextBox
+                        Margin="8 4"
+                        Grid.Column="1"
+                        Text="{Binding M3u8Url}" />
+                </Grid>
+                <GroupBox
+                    Grid.Row="1"
+                    Header="フォルダーに保存">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition
+                                Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Margin="8 4">保存先</Label>
+                        <DockPanel
+                            Margin="8 4"
+                            Grid.Column="1">
+                            <Button
+                                DockPanel.Dock="Right">...</Button>
+                            <TextBox
+                                Text="{Binding DestinationM3u8}" />
+                        </DockPanel>
+                        <Button
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            MinWidth="60"
+                            Margin="8 4"
+                            Padding="8 4"
+                            Command="{Binding DownloadCommand}">保存</Button>
+                    </Grid>
+                </GroupBox>
+                <ListBox
+                    Name="downloaderLogListBox"
+                    Grid.Row="2"
+                    ItemsSource="{Binding DownloaderLog}">
 
-            </TabItem>
-            <TabItem
-                Header="ダウンロード">
-
-            </TabItem>
-        </TabControl>
-    </Grid>
+                </ListBox>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>
