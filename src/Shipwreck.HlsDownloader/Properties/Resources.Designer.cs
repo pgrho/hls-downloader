@@ -124,7 +124,7 @@ namespace Shipwreck.HlsDownloader.Properties {
         }
         
         /// <summary>
-        ///   Select に類似しているローカライズされた文字列を検索します。
+        ///   Select .m3u8 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SelectM3u8 {
             get {

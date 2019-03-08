@@ -61,7 +61,8 @@
                         <ComboBox
                             IsEditable="True"
                             MinWidth="120"
-                            Text="{Binding ContentTypeFilter, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding ContentTypeFilter, UpdateSourceTrigger=PropertyChanged}"
+                            ItemsSource="{Binding KnownTypes}" />
                     </WrapPanel>
                     <DataGrid
                         AutoGenerateColumns="False"

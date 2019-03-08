@@ -139,7 +139,7 @@
     <value>移動</value>
   </data>
   <data name="SelectM3u8" xml:space="preserve">
-    <value>選択</value>
+    <value>.m3u8を選択</value>
   </data>
   <data name="SourceM3u8" xml:space="preserve">
     <value>対象 .m3u8 (_S)</value>

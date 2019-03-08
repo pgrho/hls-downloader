@@ -139,7 +139,7 @@
     <value>Go</value>
   </data>
   <data name="SelectM3u8" xml:space="preserve">
-    <value>Select</value>
+    <value>Select .m3u8</value>
   </data>
   <data name="SourceM3u8" xml:space="preserve">
     <value>Target .m3u8 (_S)</value>

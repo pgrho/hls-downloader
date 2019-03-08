@@ -197,6 +197,12 @@ namespace Shipwreck.HlsDownloader
 
         #endregion ContentTypeFilter
 
+        public string[] KnownTypes
+            => new[] {
+                "application/x-mpegurl", "video/MP2T", "audio/MP2T", "application/vnd.apple.mpegURL",
+                "text/html", "text/css", "application/javascript", "application/json", "application/octet-stream"
+            };
+
         #region SetRequestToDownloaderCommand
 
         private Command _SetRequestToDownloaderCommand;
