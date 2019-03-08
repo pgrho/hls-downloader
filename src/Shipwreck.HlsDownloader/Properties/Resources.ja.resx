@@ -118,36 +118,36 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ContentLength" xml:space="preserve">
-    <value>Size</value>
+    <value>サイズ</value>
   </data>
   <data name="ContentType" xml:space="preserve">
-    <value>Format</value>
+    <value>種別</value>
   </data>
   <data name="DestinationM3u8" xml:space="preserve">
-    <value>Destination .m3u8 (_D)</value>
+    <value>保存先 .m3u8 (_D)</value>
   </data>
   <data name="Download" xml:space="preserve">
-    <value>Save</value>
+    <value>保存</value>
   </data>
   <data name="Downloader" xml:space="preserve">
-    <value>Downloader (_E)</value>
+    <value>ダウンロード (_E)</value>
   </data>
   <data name="DownloadToFolder" xml:space="preserve">
-    <value>Download to Folder (_F)</value>
+    <value>フォルダーに保存 (_F)</value>
   </data>
   <data name="GoToUrl" xml:space="preserve">
-    <value>Go</value>
+    <value>移動</value>
   </data>
   <data name="SelectM3u8" xml:space="preserve">
-    <value>Select</value>
+    <value>選択</value>
   </data>
   <data name="SourceM3u8" xml:space="preserve">
-    <value>Target .m3u8 (_S)</value>
+    <value>対象 .m3u8 (_S)</value>
   </data>
   <data name="StatusCode" xml:space="preserve">
-    <value>Status</value>
+    <value>状態</value>
   </data>
   <data name="WebView" xml:space="preserve">
-    <value>Web View (_V)</value>
+    <value>Webビュー (_V)</value>
   </data>
 </root>

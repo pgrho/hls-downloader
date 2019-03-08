@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:Shipwreck.HlsDownloader"
+    xmlns:prop="clr-namespace:Shipwreck.HlsDownloader.Properties"
     mc:Ignorable="d"
     Title="MainWindow"
     Height="450"
@@ -15,7 +16,7 @@
     </Window.DataContext>
     <TabControl>
         <TabItem
-            Header="リクエスト">
+            Header="{x:Static prop:Resources.WebView}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -32,7 +33,8 @@
                         DockPanel.Dock="Top">
                         <Button
                             DockPanel.Dock="Right"
-                            Click="Button_Click">Go</Button>
+                            Click="Button_Click"
+                            Content="{x:Static prop:Resources.GoToUrl}" />
                         <TextBox
                             Text="{Binding Url}" />
                     </DockPanel>
@@ -47,7 +49,8 @@
                     <WrapPanel
                         DockPanel.Dock="Top"
                         Orientation="Horizontal">
-                        <Label>形式</Label>
+                        <Label
+                            Content="{x:Static prop:Resources.ContentType}" />
                         <ComboBox
                             IsEditable="True"
                             MinWidth="120"
@@ -70,13 +73,13 @@
                                 Binding="{Binding Url}"
                                 Width="400" />
                             <DataGridTextColumn
-                                Header="結果"
+                                Header="{x:Static prop:Resources.StatusCode}"
                                 Binding="{Binding StatusCode}" />
                             <DataGridTextColumn
-                                Header="サイズ"
+                                Header="{x:Static prop:Resources.ContentLength}"
                                 Binding="{Binding ContentLength, StringFormat='#,0'}" />
                             <DataGridTextColumn
-                                Header="形式"
+                                Header="{x:Static prop:Resources.ContentType}"
                                 Binding="{Binding ContentType}" />
                         </DataGrid.Columns>
                     </DataGrid>
@@ -87,6 +90,7 @@
                     MinWidth="60"
                     Margin="8 4"
                     Padding="8 4"
+                    Content="{x:Static prop:Resources.SelectM3u8}"
                     Command="{Binding SetRequestToDownloaderCommand}">
                     <Button.Style>
                         <Style
@@ -102,12 +106,11 @@
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
-                    選択
                 </Button>
             </Grid>
         </TabItem>
         <TabItem
-            Header="ダウンロード"
+            Header="{x:Static prop:Resources.Downloader}"
             IsSelected="{Binding IsDownloaderShown}">
             <Grid>
                 <Grid.RowDefinitions>
@@ -124,7 +127,8 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Label
-                        Margin="8 4">m3u8 URL</Label>
+                        Margin="8 4"
+                        Content="{x:Static prop:Resources.SourceM3u8}" />
                     <TextBox
                         Margin="8 4"
                         Grid.Column="1"
@@ -132,7 +136,7 @@
                 </Grid>
                 <GroupBox
                     Grid.Row="1"
-                    Header="フォルダーに保存">
+                    Header="{x:Static prop:Resources.DownloadToFolder}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition
@@ -146,7 +150,8 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Label
-                            Margin="8 4">保存先</Label>
+                            Margin="8 4"
+                            Content="{x:Static prop:Resources.DestinationM3u8}" />
                         <DockPanel
                             Margin="8 4"
                             Grid.Column="1">
@@ -162,7 +167,8 @@
                             MinWidth="60"
                             Margin="8 4"
                             Padding="8 4"
-                            Command="{Binding DownloadCommand}">保存</Button>
+                            Content="{x:Static prop:Resources.Download}"
+                            Command="{Binding DownloadCommand}" />
                     </Grid>
                 </GroupBox>
                 <ListBox
