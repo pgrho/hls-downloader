@@ -1,6 +1,7 @@
 ﻿using Gecko;
 using Gecko.Net;
 using Gecko.Observers;
+using Microsoft.Win32;
 using Shipwreck.HlsDownloader.Properties;
 using System;
 using System.Collections.ObjectModel;
@@ -18,6 +19,9 @@ namespace Shipwreck.HlsDownloader
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        internal MainWindow Window
+            => App.Current?.MainWindow is MainWindow mw && mw.DataContext == this ? mw : null;
+
         #region WebView
 
         private class ResponseObserver : BaseHttpRequestResponseObserver
@@ -280,6 +284,27 @@ namespace Shipwreck.HlsDownloader
 
         public ObservableCollection<string> DownloaderLog
             => _DownloaderLog ?? (_DownloaderLog = new ObservableCollection<string>());
+
+        #endregion IsDownloaderShown
+
+        #region BrowseDestinationCommand
+
+        private Command _BrowseDestinationCommand;
+
+        public ICommand BrowseDestinationCommand
+            => _BrowseDestinationCommand
+            ?? (_BrowseDestinationCommand = new Command(async () =>
+            {
+                var fd = new SaveFileDialog();
+                fd.Filter = "HLS Playlist|*.m3u8";
+                fd.FileName = DestinationM3u8;
+                fd.InitialDirectory = string.IsNullOrEmpty(DestinationM3u8) ? fd.InitialDirectory : Path.GetDirectoryName(Path.Combine(DestinationM3u8));
+
+                if (fd.ShowDialog(Window) == true)
+                {
+                    DestinationM3u8 = fd.FileName;
+                }
+            }));
 
         #endregion IsDownloaderShown
 

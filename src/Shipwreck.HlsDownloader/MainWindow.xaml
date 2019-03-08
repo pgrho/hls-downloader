@@ -163,8 +163,15 @@
                         <DockPanel
                             Margin="8 4"
                             Grid.Column="1">
+                            <DockPanel.InputBindings>
+                                <KeyBinding
+                                    Key="Return"
+                                    Command="{Binding BrowseDestinationCommand}" />
+                            </DockPanel.InputBindings>
                             <Button
-                                DockPanel.Dock="Right">...</Button>
+                                DockPanel.Dock="Right"
+                                Padding="4"
+                                Command="{Binding BrowseDestinationCommand}">...</Button>
                             <TextBox
                                 Text="{Binding DestinationM3u8}" />
                         </DockPanel>
@@ -176,12 +183,37 @@
                             Margin="8 4"
                             Padding="8 4"
                             Content="{x:Static prop:Resources.Download}"
-                            Command="{Binding DownloadCommand}" />
+                            Command="{Binding DownloadCommand}">
+                            <Button.Style>
+                                <Style
+                                    TargetType="Button">
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding M3u8Url.Length}"
+                                            Value="0">
+                                            <Setter
+                                                Property="IsEnabled"
+                                                Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding DestinationM3u8.Length}"
+                                            Value="0">
+                                            <Setter
+                                                Property="IsEnabled"
+                                                Value="False" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                     </Grid>
                 </GroupBox>
                 <ListBox
                     Name="downloaderLogListBox"
                     Grid.Row="2"
+                    SelectionMode="Single"
+                    Background="Black"
+                    Foreground="White"
                     ItemsSource="{Binding DownloaderLog}">
 
                 </ListBox>
