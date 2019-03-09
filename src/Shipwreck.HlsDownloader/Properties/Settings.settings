@@ -8,5 +8,14 @@
     <Setting Name="DestinationM3u8" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="FfmpegPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ffmpeg.exe</Value>
+    </Setting>
+    <Setting Name="FfmpegDestination" Type="System.String" Scope="User">
+      <Value Profile="(Default)">output.ts</Value>
+    </Setting>
+    <Setting Name="FfmpegExtension" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.ts</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

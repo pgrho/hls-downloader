@@ -46,5 +46,41 @@ namespace Shipwreck.HlsDownloader.Properties {
                 this["DestinationM3u8"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ffmpeg.exe")]
+        public string FfmpegPath {
+            get {
+                return ((string)(this["FfmpegPath"]));
+            }
+            set {
+                this["FfmpegPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("output.ts")]
+        public string FfmpegDestination {
+            get {
+                return ((string)(this["FfmpegDestination"]));
+            }
+            set {
+                this["FfmpegDestination"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".ts")]
+        public string FfmpegExtension {
+            get {
+                return ((string)(this["FfmpegExtension"]));
+            }
+            set {
+                this["FfmpegExtension"] = value;
+            }
+        }
     }
 }

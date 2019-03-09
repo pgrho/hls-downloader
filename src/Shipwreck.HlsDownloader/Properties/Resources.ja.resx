@@ -153,4 +153,22 @@
   <data name="ConvertByFfmpeg" xml:space="preserve">
     <value>FFmpegで変換 (_C)</value>
   </data>
+  <data name="AnyFile" xml:space="preserve">
+    <value>すべてのファイル</value>
+  </data>
+  <data name="Convert" xml:space="preserve">
+    <value>変換</value>
+  </data>
+  <data name="DownloadFfmpeg" xml:space="preserve">
+    <value>FFmpegをダウンロードする</value>
+  </data>
+  <data name="FfmpegDestination" xml:space="preserve">
+    <value>出力ファイル名</value>
+  </data>
+  <data name="FfmpegFormat" xml:space="preserve">
+    <value>出力形式</value>
+  </data>
+  <data name="FfmpegPath" xml:space="preserve">
+    <value>FFmpegパス</value>
+  </data>
 </root>

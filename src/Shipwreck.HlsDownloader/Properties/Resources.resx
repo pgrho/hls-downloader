@@ -153,4 +153,22 @@
   <data name="WebView" xml:space="preserve">
     <value>Web View (_V)</value>
   </data>
+  <data name="AnyFile" xml:space="preserve">
+    <value>Any File</value>
+  </data>
+  <data name="Convert" xml:space="preserve">
+    <value>Convert</value>
+  </data>
+  <data name="DownloadFfmpeg" xml:space="preserve">
+    <value>Download FFmpeg.</value>
+  </data>
+  <data name="FfmpegDestination" xml:space="preserve">
+    <value>Destionation File Name</value>
+  </data>
+  <data name="FfmpegFormat" xml:space="preserve">
+    <value>Output Format</value>
+  </data>
+  <data name="FfmpegPath" xml:space="preserve">
+    <value>FFmpeg Path</value>
+  </data>
 </root>

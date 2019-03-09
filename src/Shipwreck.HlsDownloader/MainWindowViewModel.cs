@@ -6,11 +6,13 @@ using Shipwreck.HlsDownloader.Properties;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -254,6 +256,15 @@ namespace Shipwreck.HlsDownloader
 
         #endregion IsDownloaderShown
 
+        #region IsDownloaderShown
+
+        private ObservableCollection<string> _DownloaderLog;
+
+        public ObservableCollection<string> DownloaderLog
+            => _DownloaderLog ?? (_DownloaderLog = new ObservableCollection<string>());
+
+        #endregion IsDownloaderShown
+
         #region M3u8Url
 
         private string _M3u8Url = string.Empty;
@@ -278,22 +289,13 @@ namespace Shipwreck.HlsDownloader
 
         #endregion DestinationM3u8
 
-        #region IsDownloaderShown
+        #region BrowseDestinationM3u8Command
 
-        private ObservableCollection<string> _DownloaderLog;
+        private Command _BrowseDestinationM3u8Command;
 
-        public ObservableCollection<string> DownloaderLog
-            => _DownloaderLog ?? (_DownloaderLog = new ObservableCollection<string>());
-
-        #endregion IsDownloaderShown
-
-        #region BrowseDestinationCommand
-
-        private Command _BrowseDestinationCommand;
-
-        public ICommand BrowseDestinationCommand
-            => _BrowseDestinationCommand
-            ?? (_BrowseDestinationCommand = new Command(() =>
+        public ICommand BrowseDestinationM3u8Command
+            => _BrowseDestinationM3u8Command
+            ?? (_BrowseDestinationM3u8Command = new Command(() =>
             {
                 var fd = new SaveFileDialog();
                 fd.Filter = "HLS Playlist|*.m3u8";
@@ -306,7 +308,7 @@ namespace Shipwreck.HlsDownloader
                 }
             }));
 
-        #endregion BrowseDestinationCommand
+        #endregion BrowseDestinationM3u8Command
 
         #region DownloadCommand
 
@@ -341,6 +343,183 @@ namespace Shipwreck.HlsDownloader
             }));
 
         #endregion DownloadCommand
+
+        #region FFmpeg
+
+        #region FfmpegPath
+
+        private string _FfmpegPath = Settings.Default.FfmpegPath ?? string.Empty;
+
+        public string FfmpegPath
+        {
+            get => _FfmpegPath;
+            set => SetProperty(ref _FfmpegPath, value?.Trim() ?? string.Empty);
+        }
+
+        #endregion FfmpegPath
+
+        #region Ffmpeg Destination
+
+        #region FfmpegDestination
+
+        private string _FfmpegDestination = Settings.Default.FfmpegDestination ?? string.Empty;
+
+        public string FfmpegDestination
+        {
+            get => _FfmpegDestination;
+            set => SetProperty(ref _FfmpegDestination, value?.Trim() ?? string.Empty);
+        }
+
+        #endregion FfmpegDestination
+
+        #region FfmpegExtension
+
+        private string _FfmpegExtension = Settings.Default.FfmpegExtension ?? string.Empty;
+
+        public string FfmpegExtension
+        {
+            get => _FfmpegExtension;
+            set
+            {
+                if (SetProperty(ref _FfmpegExtension, value?.Trim().ToLowerInvariant() ?? string.Empty)
+                    && !string.IsNullOrEmpty(FfmpegDestination))
+                {
+                    FfmpegDestination = Path.ChangeExtension(FfmpegDestination, FfmpegExtension);
+                }
+            }
+        }
+
+        #endregion FfmpegExtension
+
+        public string[] KnownExtensions
+            => new[] { ".ts", ".aac", ".mp4", ".mp3", ".wav" };
+
+        #region BrowseFfmpegDestinationCommand
+
+        private Command _BrowseFfmpegDestinationCommand;
+
+        public ICommand BrowseFfmpegDestinationCommand
+            => _BrowseFfmpegDestinationCommand
+            ?? (_BrowseFfmpegDestinationCommand = new Command(() =>
+            {
+                var ext = FfmpegExtension;
+                var exts = KnownExtensions;
+                var fd = new SaveFileDialog();
+                fd.Filter = string.Join("|", exts.Select(e => $"{e} file|*{e}")) + $"|{Resources.AnyFile}|*";
+                var ei = Array.IndexOf(exts, ext);
+                fd.FilterIndex = (ei >= 0 ? ei : exts.Length) + 1;
+                fd.FileName = FfmpegDestination;
+                fd.InitialDirectory = string.IsNullOrEmpty(FfmpegDestination) ? fd.InitialDirectory : Path.GetDirectoryName(Path.Combine(FfmpegDestination));
+
+                if (fd.ShowDialog(Window) == true)
+                {
+                    FfmpegDestination = fd.FileName;
+                }
+            }));
+
+        #endregion BrowseFfmpegDestinationCommand
+
+        #endregion Ffmpeg Destination
+
+        #region DownloadFfmpegCommand
+
+        private Command _DownloadFfmpegCommand;
+
+        public ICommand DownloadFfmpegCommand
+            => _DownloadFfmpegCommand
+            ?? (_DownloadFfmpegCommand = new Command(() => Process.Start("https://www.ffmpeg.org/download.html")));
+
+        #endregion DownloadFfmpegCommand
+
+        #region ConvertCommand
+
+        private Command _ConvertCommand;
+
+        public ICommand ConvertCommand
+            => _ConvertCommand
+            ?? (_ConvertCommand = new Command(async () =>
+            {
+                var src = _M3u8Url;
+                var ffmpeg = FfmpegPath;
+                var output = FfmpegDestination;
+
+                if (!string.IsNullOrEmpty(src)
+                && !string.IsNullOrEmpty(ffmpeg)
+                && !string.IsNullOrEmpty(output))
+                {
+                    try
+                    {
+                        var dest = Path.GetTempFileName();
+                        File.Delete(dest);
+                        dest = Path.Combine(dest, "temp.m3u8");
+
+                        output = Path.GetFullPath(output);
+
+                        var sd = Settings.Default;
+                        sd.FfmpegPath = ffmpeg;
+                        sd.FfmpegDestination = output;
+                        sd.Save();
+
+                        _DownloaderLog?.Clear();
+
+                        if (await DownloadAsync(src, dest))
+                        {
+                            await Task.Run(() =>
+                            {
+                                var psi = new ProcessStartInfo(ffmpeg);
+                                psi.Arguments = $"-allowed_extensions ALL -i \"{dest}\" \"{output}\"";
+                                psi.WorkingDirectory = Path.GetDirectoryName(dest);
+                                //psi.CreateNoWindow = true;
+                                //psi.RedirectStandardOutput = true;
+                                //psi.RedirectStandardError = true;
+                                //psi.UseShellExecute = false;
+
+                                App.Current?.Dispatcher?.BeginInvoke((Action)(() => DownloaderLog.Add($"{psi.FileName} {psi.Arguments}")));
+
+                                var p = Process.Start(psi);
+                                var pn = p.ProcessName;
+                                var pid = p.Id;
+                                p.WaitForExit();
+
+                                //while (!p.HasExited)
+                                //{
+                                //    for (var i = 0; i < 2; i++)
+                                //    {
+                                //        var sr = i == 0 ? p.StandardOutput : p.StandardError;
+                                //        while (!sr.EndOfStream)
+                                //        {
+                                //            var l = sr.ReadLine();
+                                //            if (l == null)
+                                //            {
+                                //                break;
+                                //            }
+                                //            if (l.Length > 0)
+                                //            {
+                                //                App.Current?.Dispatcher?.BeginInvoke((Action)(() => DownloaderLog.Add(l)));
+                                //            }
+                                //        }
+                                //    }
+
+                                //    Thread.Sleep(1);
+                                //}
+
+                                App.Current?.Dispatcher?.BeginInvoke((Action)(() => DownloaderLog.Add($"{pn} (PID:{pid}) exited with code {p.ExitCode}.")));
+                            });
+
+                            DownloaderLog.Add($"Deleting directory \"{Path.GetDirectoryName(dest)}\".");
+                            Directory.Delete(Path.GetDirectoryName(dest), true);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        DownloaderLog.Add(ex.ToString());
+                    }
+                }
+            }));
+
+        #endregion ConvertCommand
+
+        #endregion FFmpeg
 
         private async Task<bool> DownloadAsync(string src, string dest)
         {
@@ -412,7 +591,7 @@ namespace Shipwreck.HlsDownloader
                                 var fn = (ts++).ToString("000000\".ts\"");
 
                                 var fp = Path.Combine(dir, fn);
-                                DownloaderLog.Add(string.Format("Writing \"{0}\".", fp));
+                                // DownloaderLog.Add(string.Format("Writing \"{0}\".", fp));
 
                                 File.WriteAllBytes(fp, data);
                                 sw.WriteLine(fn);
@@ -430,7 +609,7 @@ namespace Shipwreck.HlsDownloader
                                         var fn = (key++).ToString("\"key\"0\".bin\"");
 
                                         var fp = Path.Combine(dir, fn);
-                                        DownloaderLog.Add(string.Format("Writing \"{0}\".", fp));
+                                        // DownloaderLog.Add(string.Format("Writing \"{0}\".", fp));
 
                                         File.WriteAllBytes(fp, data);
                                         sw.WriteLine(l.Substring(0, m.Index) + m.Groups[1].Value + $"URI=\"{fn}\"" + l.Substring(m.Index + m.Length));

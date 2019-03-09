@@ -61,6 +61,15 @@ namespace Shipwreck.HlsDownloader.Properties {
         }
         
         /// <summary>
+        ///   Any File に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AnyFile {
+            get {
+                return ResourceManager.GetString("AnyFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContentLength {
@@ -75,6 +84,15 @@ namespace Shipwreck.HlsDownloader.Properties {
         public static string ContentType {
             get {
                 return ResourceManager.GetString("ContentType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Convert に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Convert {
+            get {
+                return ResourceManager.GetString("Convert", resourceCulture);
             }
         }
         
@@ -115,11 +133,47 @@ namespace Shipwreck.HlsDownloader.Properties {
         }
         
         /// <summary>
+        ///   Download FFmpeg. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DownloadFfmpeg {
+            get {
+                return ResourceManager.GetString("DownloadFfmpeg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Download to Folder (_F) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DownloadToFolder {
             get {
                 return ResourceManager.GetString("DownloadToFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Destionation File Name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FfmpegDestination {
+            get {
+                return ResourceManager.GetString("FfmpegDestination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Output Format に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FfmpegFormat {
+            get {
+                return ResourceManager.GetString("FfmpegFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   FFmpeg Path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FfmpegPath {
+            get {
+                return ResourceManager.GetString("FfmpegPath", resourceCulture);
             }
         }
         
