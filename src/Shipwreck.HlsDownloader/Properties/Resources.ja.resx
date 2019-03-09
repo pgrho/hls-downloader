@@ -171,4 +171,7 @@
   <data name="FfmpegPath" xml:space="preserve">
     <value>FFmpegパス</value>
   </data>
+  <data name="DirectoryOvewriteConfirmation" xml:space="preserve">
+    <value>指定されたフォルダーにはすでにファイルが存在します。上書きされる場合がありますがよろしいでしょうか？</value>
+  </data>
 </root>

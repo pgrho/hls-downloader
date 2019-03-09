@@ -12,8 +12,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -44,6 +44,7 @@ namespace Shipwreck.HlsDownloader
             protected override void Response(HttpChannel channel)
             {
                 var rvm = new RequestViewModel(channel, true);
+                var cr = new WeakReference<nsIHttpChannel>(channel.Instance);
                 base.Response(channel);
 
                 App.Current?.Dispatcher?.BeginInvoke((Action)(() =>
@@ -76,6 +77,7 @@ namespace Shipwreck.HlsDownloader
             {
                 base.ObserveRequest(channel);
 
+                var cr = new WeakReference<nsIHttpChannel>(channel.Instance);
                 var url = channel.Uri;
 
                 var tc = channel.CastToTraceableChannel();
@@ -385,6 +387,10 @@ namespace Shipwreck.HlsDownloader
                     && !string.IsNullOrEmpty(FfmpegDestination))
                 {
                     FfmpegDestination = Path.ChangeExtension(FfmpegDestination, FfmpegExtension);
+
+                    var sd = Settings.Default;
+                    sd.FfmpegExtension = FfmpegExtension;
+                    sd.Save();
                 }
             }
         }
@@ -529,6 +535,15 @@ namespace Shipwreck.HlsDownloader
             {
                 DownloaderLog.Add(string.Format("Creating directory \"{0}\".", dir));
                 Directory.CreateDirectory(dir);
+            }
+            else if (Directory.GetFileSystemEntries(dir).Any()
+                && MessageBox.Show(
+                    Window,
+                    Resources.DirectoryOvewriteConfirmation,
+                    Resources.ApplicationName,
+                    MessageBoxButton.OKCancel) != MessageBoxResult.OK)
+            {
+                return false;
             }
 
             async Task<byte[]> getDataAsync(HttpClient client, Uri u)

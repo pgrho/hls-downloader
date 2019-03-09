@@ -171,4 +171,10 @@
   <data name="FfmpegPath" xml:space="preserve">
     <value>FFmpeg Path</value>
   </data>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>HLS Downloader</value>
+  </data>
+  <data name="DirectoryOvewriteConfirmation" xml:space="preserve">
+    <value>The destination directory is not empty. Existing files may be overwritten.</value>
+  </data>
 </root>

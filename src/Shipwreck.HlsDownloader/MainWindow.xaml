@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:Shipwreck.HlsDownloader"
     xmlns:prop="clr-namespace:Shipwreck.HlsDownloader.Properties"
     mc:Ignorable="d"
-    Title="MainWindow"
+    Title="{x:Static prop:Resources.ApplicationName}"
     Height="450"
     Width="800"
     Loaded="Window_Loaded">

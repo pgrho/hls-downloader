@@ -70,6 +70,15 @@ namespace Shipwreck.HlsDownloader.Properties {
         }
         
         /// <summary>
+        ///   HLS Downloader に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ApplicationName {
+            get {
+                return ResourceManager.GetString("ApplicationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContentLength {
@@ -111,6 +120,15 @@ namespace Shipwreck.HlsDownloader.Properties {
         public static string DestinationM3u8 {
             get {
                 return ResourceManager.GetString("DestinationM3u8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The destination directory is not empty. Existing files may be overwritten. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DirectoryOvewriteConfirmation {
+            get {
+                return ResourceManager.GetString("DirectoryOvewriteConfirmation", resourceCulture);
             }
         }
         

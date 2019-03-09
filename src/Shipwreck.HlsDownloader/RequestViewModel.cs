@@ -1,4 +1,5 @@
-﻿using Gecko.Net;
+﻿using Gecko;
+using Gecko.Net;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,10 +9,10 @@ namespace Shipwreck.HlsDownloader
 {
     public sealed class RequestViewModel : ViewModelBase
     {
-        //private readonly WeakReference<HttpChannel> _Channel;
-        internal RequestViewModel(HttpChannel channel,bool isResponse)
+        private readonly WeakReference<nsIHttpChannel> _Channel;
+        internal RequestViewModel(HttpChannel channel, bool isResponse)
         {
-            //_Channel = new WeakReference<HttpChannel>(channel);
+            _Channel = new WeakReference<nsIHttpChannel>(channel.Instance);
             Method = channel.RequestMethod;
             Url = channel.Uri;
 
@@ -33,8 +34,8 @@ namespace Shipwreck.HlsDownloader
             }
         }
 
-        //internal HttpChannel Channel
-        //    => _Channel.TryGetTarget(out var r) ? r : null;
+        internal nsIHttpChannel Channel
+            => _Channel.TryGetTarget(out var r) ? r : null;
 
         public string Method { get; }
         public Uri Url { get; }
@@ -68,9 +69,10 @@ namespace Shipwreck.HlsDownloader
         {
             var dic = new Dictionary<string, string>();
 
-            if(ResponseHeaders != null) { 
-            foreach (var kv in ResponseHeaders)
+            if (ResponseHeaders != null)
             {
+                foreach (var kv in ResponseHeaders)
+                {
                     if (kv.Key.Equals("Set-Cookie", StringComparison.InvariantCultureIgnoreCase))
                     {
                         var c = kv.Value.Split(';')?.FirstOrDefault();
