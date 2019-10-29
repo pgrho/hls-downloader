@@ -88,7 +88,7 @@ namespace Shipwreck.HlsDownloader
                     {
                         var data = slt.GetCapturedData();
 
-                        if (data?.Length <= 1024)
+                        if (0 <= data?.Length && data.Length <= 1024)
                         {
                             App.Current?.Dispatcher?.BeginInvoke((Action)(() =>
                             {
@@ -546,13 +546,14 @@ namespace Shipwreck.HlsDownloader
                 return false;
             }
 
-            async Task<byte[]> getDataAsync(HttpClient client, Uri u)
+            async Task<byte[]> getDataAsync(HttpClient client, Uri u, int expectedLength = -1)
             {
-                var lr1 = RequestList.LastOrDefault(e => e.Url == u)?.Data;
+                var matched = RequestList.Where(e => e.Url == u).ToList();
+                var lr1 = matched.LastOrDefault(e => e.Data?.Length == expectedLength) ?? matched.LastOrDefault(e => e.Data?.Length > 0);
                 if (lr1 != null)
                 {
                     DownloaderLog.Add(string.Format("Read {0} from cache.", u));
-                    return lr1;
+                    return lr1.Data;
                 }
 
                 var req = new HttpRequestMessage(HttpMethod.Get, u);
@@ -619,7 +620,7 @@ namespace Shipwreck.HlsDownloader
                                     if (m.Success)
                                     {
                                         var tu = new Uri(lu, m.Groups["u"].Value);
-                                        var data = await getDataAsync(hc, tu);
+                                        var data = await getDataAsync(hc, tu, 16);
 
                                         var fn = (key++).ToString("\"key\"0\".bin\"");
 

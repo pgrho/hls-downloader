@@ -3,10 +3,12 @@ using Gecko.Net;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Shipwreck.HlsDownloader
 {
+    [DebuggerDisplay("{ContentType} {ContentLength} {Method} {Uri}")]
     public sealed class RequestViewModel : ViewModelBase
     {
         private readonly WeakReference<nsIHttpChannel> _Channel;
