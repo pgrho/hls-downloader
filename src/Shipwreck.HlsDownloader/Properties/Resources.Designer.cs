@@ -19,7 +19,7 @@ namespace Shipwreck.HlsDownloader.Properties {
     // または Visual Studio のようなツールを使用して自動生成されました。
     // メンバーを追加または削除するには、.ResX ファイルを編集して、/str オプションと共に
     // ResGen を実行し直すか、または VS プロジェクトをビルドし直します。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -205,6 +205,24 @@ namespace Shipwreck.HlsDownloader.Properties {
         }
         
         /// <summary>
+        ///   (not set) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string KeyByteEmptyString {
+            get {
+                return ResourceManager.GetString("KeyByteEmptyString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ({0}bytes) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string KeyByteFormat {
+            get {
+                return ResourceManager.GetString("KeyByteFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Select .m3u8 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SelectM3u8 {
@@ -219,6 +237,15 @@ namespace Shipwreck.HlsDownloader.Properties {
         public static string SourceM3u8 {
             get {
                 return ResourceManager.GetString("SourceM3u8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Static Key に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string StaticKey {
+            get {
+                return ResourceManager.GetString("StaticKey", resourceCulture);
             }
         }
         

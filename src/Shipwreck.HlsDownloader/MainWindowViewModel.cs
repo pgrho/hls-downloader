@@ -1,9 +1,4 @@
-﻿using Gecko;
-using Gecko.Net;
-using Gecko.Observers;
-using Microsoft.Win32;
-using Shipwreck.HlsDownloader.Properties;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -16,6 +11,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using Gecko;
+using Gecko.Net;
+using Gecko.Observers;
+using Microsoft.Win32;
+using Shipwreck.HlsDownloader.Properties;
 
 namespace Shipwreck.HlsDownloader
 {
@@ -278,6 +278,48 @@ namespace Shipwreck.HlsDownloader
         }
 
         #endregion M3u8Url
+
+        #region キー
+
+        private string _KeyString = string.Empty;
+        private ReadOnlyCollection<byte> _Key;
+
+        public string KeyString
+        {
+            get => _KeyString;
+            set
+            {
+                if (SetProperty(ref _KeyString, value))
+                {
+                    if (!string.IsNullOrWhiteSpace(_KeyString))
+                    {
+                        var v = _KeyString.Trim();
+                        try
+                        {
+                            Key = Array.AsReadOnly(Convert.FromBase64String(v));
+                            return;
+                        }
+                        catch { }
+
+                        try
+                        {
+                            Key = Array.AsReadOnly(Regex.Split(v, "\\s+").Select(s => byte.Parse(s, System.Globalization.NumberStyles.HexNumber)).ToArray());
+                            return;
+                        }
+                        catch { }
+                    }
+                    Key = null;
+                }
+            }
+        }
+
+        public ReadOnlyCollection<byte> Key
+        {
+            get => _Key;
+            private set => SetProperty(ref _Key, value);
+        }
+
+        #endregion キー
 
         #region DestinationM3u8
 
@@ -620,7 +662,7 @@ namespace Shipwreck.HlsDownloader
                                     if (m.Success)
                                     {
                                         var tu = new Uri(lu, m.Groups["u"].Value);
-                                        var data = await getDataAsync(hc, tu, 16);
+                                        var data = _Key?.ToArray() ?? await getDataAsync(hc, tu, 16);
 
                                         var fn = (key++).ToString("\"key\"0\".bin\"");
 

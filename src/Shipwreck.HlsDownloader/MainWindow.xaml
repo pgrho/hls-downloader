@@ -158,20 +158,13 @@
         <TabItem
             Header="{x:Static prop:Resources.Downloader}"
             IsSelected="{Binding IsDownloaderShown}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition
-                        Height="Auto" />
-                    <RowDefinition
-                        Height="Auto" />
-                    <RowDefinition
-                        Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid>
+            <DockPanel
+                Grid.IsSharedSizeScope="True">
+                <Grid
+                    DockPanel.Dock="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition
-                            Width="Auto" />
+                            SharedSizeGroup="label" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Label
@@ -182,8 +175,30 @@
                         Grid.Column="1"
                         Text="{Binding M3u8Url}" />
                 </Grid>
+                <Grid
+                    DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+                            SharedSizeGroup="label" />
+                        <ColumnDefinition />
+                        <ColumnDefinition
+                            Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Margin="8 4"
+                        Content="{x:Static prop:Resources.StaticKey}" />
+                    <TextBox
+                        Margin="8 4"
+                        Grid.Column="1"
+                        Text="{Binding KeyString}" />
+                    <TextBlock
+                        Margin="8 4"
+                        Grid.Column="2"
+                        VerticalAlignment="Center"
+                        Text="{Binding Key.Count, StringFormat={x:Static prop:Resources.KeyByteFormat}, FallbackValue={x:Static prop:Resources.KeyByteEmptyString}}" />
+                </Grid>
                 <GroupBox
-                    Grid.Row="1"
+                    DockPanel.Dock="Top"
                     Header="{x:Static prop:Resources.DownloadToFolder}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -252,7 +267,7 @@
                     </Grid>
                 </GroupBox>
                 <GroupBox
-                    Grid.Row="2"
+                    DockPanel.Dock="Top"
                     Header="{x:Static prop:Resources.ConvertByFfmpeg}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -362,14 +377,13 @@
                 </GroupBox>
                 <ListBox
                     Name="downloaderLogListBox"
-                    Grid.Row="3"
                     SelectionMode="Single"
                     Background="Black"
                     Foreground="White"
                     ItemsSource="{Binding DownloaderLog}">
 
                 </ListBox>
-            </Grid>
+            </DockPanel>
         </TabItem>
     </TabControl>
 </Window>

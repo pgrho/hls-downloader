@@ -177,4 +177,13 @@
   <data name="DirectoryOvewriteConfirmation" xml:space="preserve">
     <value>The destination directory is not empty. Existing files may be overwritten.</value>
   </data>
+  <data name="KeyByteEmptyString" xml:space="preserve">
+    <value>(not set)</value>
+  </data>
+  <data name="KeyByteFormat" xml:space="preserve">
+    <value>({0}bytes)</value>
+  </data>
+  <data name="StaticKey" xml:space="preserve">
+    <value>Static Key</value>
+  </data>
 </root>

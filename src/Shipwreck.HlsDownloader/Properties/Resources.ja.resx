@@ -174,4 +174,13 @@
   <data name="DirectoryOvewriteConfirmation" xml:space="preserve">
     <value>指定されたフォルダーにはすでにファイルが存在します。上書きされる場合がありますがよろしいでしょうか？</value>
   </data>
+  <data name="KeyByteEmptyString" xml:space="preserve">
+    <value>(未設定)</value>
+  </data>
+  <data name="KeyByteFormat" xml:space="preserve">
+    <value>({0}バイト)</value>
+  </data>
+  <data name="StaticKey" xml:space="preserve">
+    <value>固定キー</value>
+  </data>
 </root>
