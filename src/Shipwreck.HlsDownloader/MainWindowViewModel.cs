@@ -205,11 +205,13 @@ namespace Shipwreck.HlsDownloader
 
         #endregion ContentTypeFilter
 
+        private string[] _KnownTypes;
         public string[] KnownTypes
-            => new[] {
+            => _KnownTypes ?? (_KnownTypes = new[]
+            {
                 "application/x-mpegurl", "video/MP2T", "audio/MP2T", "application/vnd.apple.mpegURL",
                 "text/html", "text/css", "application/javascript", "application/json", "application/octet-stream"
-            };
+            }.SelectMany(e => new[] { e, e.ToLowerInvariant() }.Distinct()).ToArray());
 
         #region SetRequestToDownloaderCommand
 
